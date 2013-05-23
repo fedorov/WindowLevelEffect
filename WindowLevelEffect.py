@@ -32,8 +32,10 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
 
     self.thresholdPaint.hide()
     self.paintOver.hide()
+    self.threshold.hide()
+    self.thresholdLabel.hide()
 
-    # add the selection whether it should work as regular w/l control, 
+    # add the selection whether it should work as regular w/l control,
     # or as a rectangle
     self.normalMode = qt.QRadioButton('Normal mode')
     self.rectangleMode = qt.QRadioButton('Rectangle mode')
@@ -159,7 +161,7 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
     property_.SetLineWidth(1)
     self.renderer.AddActor2D( self.actor )
     self.actors.append( self.actor )
-    
+
     # will keep w/l on left mouse button down
     self.bgStartWindowLevel = [0,0]
     self.fgStartWindowLevel = [0,0]
@@ -228,13 +230,13 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
 
     bgLayer = self.sliceLogic.GetBackgroundLayer()
     fgLayer = self.sliceLogic.GetForegroundLayer()
-      
+
     bgNode = bgLayer.GetVolumeNode()
     fgNode = fgLayer.GetVolumeNode()
 
     if event == "LeftButtonPressEvent":
       self.actionState = "dragging"
-      
+
       self.cursorOff()
       xy = self.interactor.GetEventPosition()
       self.startXYPosition = xy
@@ -276,7 +278,7 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
       self.abortEvent(event)
 
   def apply(self):
-      
+
     self.mode = self.parameterNode.GetParameter('WindowLevelEffect,wlmode')
     self.changeBg = not (0 == int(self.parameterNode.GetParameter('WindowLevelEffect,changeBg')))
     self.changeFg = not (0 == int(self.parameterNode.GetParameter('WindowLevelEffect,changeFg')))
@@ -301,14 +303,14 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
     vDisplay = node.GetDisplayNode()
     vImage = node.GetImageData()
     vRange = vImage.GetScalarRange()
-    
+
     # see vtkSliceViewInteractorStyle.cxx:330
     deltaX = currentXY[0]-startXY[0]
     deltaY = currentXY[1]-startXY[1]
     gain = (vRange[1]-vRange[0])/500.
     newWindow = startWindowLevel[0]+(gain*deltaX)
     newLevel = startWindowLevel[1]+(gain*deltaY)
-    
+
     vDisplay.SetAutoWindowLevel(0)
     vDisplay.SetWindowLevel(newWindow, newLevel)
     vDisplay.Modified()
@@ -419,7 +421,7 @@ class WindowLevelEffect():
   def __init__(self, parent):
     parent.title = "Editor WindowLevel Effect"
     parent.categories = ["Developer Tools.Editor Extensions"]
-    parent.contributors = ["Andrey Fedorov (BWH)"] 
+    parent.contributors = ["Andrey Fedorov (BWH)"]
     parent.hidden = True
     parent.helpText = """
     WindowLevel effect
