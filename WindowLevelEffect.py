@@ -265,7 +265,7 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
           self.currentXYPosition = self.interactor.GetEventPosition()
           self.updateGlyph()
           self.sliceView.scheduleRender()
-      self.abortEvent(event)
+        self.abortEvent(event)
 
     elif event == "LeftButtonReleaseEvent":
       self.actionState = ""
