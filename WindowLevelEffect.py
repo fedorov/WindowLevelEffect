@@ -53,7 +53,7 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     label = qt.QLabel('Layers affected:')
     self.bgSelector = qt.QCheckBox('Background')
     self.fgSelector = qt.QCheckBox('Foreground')
-    self.bgSelector.checked = 1
+    self.bgSelector.checked = 0
     self.fgSelector.checked = 1
     self.frame.layout().addWidget(label)
     self.frame.layout().addWidget(self.bgSelector)
