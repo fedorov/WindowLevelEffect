@@ -69,7 +69,7 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
 
     # set effect-specific parameters
     self.parameterNode.SetParameter('WindowLevelEffect,wlmode', 'Normal')
-    self.parameterNode.SetParameter('WindowLevelEffect,changeBg','1')
+    self.parameterNode.SetParameter('WindowLevelEffect,changeBg','0')
     self.parameterNode.SetParameter('WindowLevelEffect,changeFg','1')
     self.parameterNode.SetParameter('Effect,scope','')
 
