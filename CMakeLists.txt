@@ -3,10 +3,10 @@ cmake_minimum_required(VERSION 2.8.7)
 #-----------------------------------------------------------------------------
 if(NOT Slicer_SOURCE_DIR)
   set(EXTENSION_NAME WindowLevelEffect)
-  set(EXTENSION_HOMEPAGE "http://www.slicer.org/slicerWiki/index.php/Documentation/4.2/Extensions/WindowLevelEffect")
-  set(EXTENSION_CATEGORY "Examples")
+  set(EXTENSION_HOMEPAGE "http://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Extensions/WindowLevelEffect")
+  set(EXTENSION_CATEGORY "Editor Effects")
   set(EXTENSION_CONTRIBUTORS "Andrey Fedorov (SPL)")
-  set(EXTENSION_DESCRIPTION "This is a utility effect to control window/level from Editor module")
+  set(EXTENSION_DESCRIPTION "This is a utility effect to control window/level from Editor module. Unlike the standard Slicer functionality, this extension allows to change window/level for both background and/or foreground volumes. An ROI tool allows to interactively set window/level based on the intensity range of a user-defined rectangular area.")
 endif()
 
 #-----------------------------------------------------------------------------
