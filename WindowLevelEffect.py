@@ -420,11 +420,11 @@ class WindowLevelEffect():
   """
   def __init__(self, parent):
     parent.title = "Editor WindowLevel Effect"
-    parent.categories = ["Developer Tools.Editor Extensions"]
+    parent.categories = ["Editor Effects"]
     parent.contributors = ["Andrey Fedorov (BWH)"]
     parent.hidden = True
     parent.helpText = """
-    WindowLevel effect
+    Editor WindowLevel effect
     """
     parent.acknowledgementText = """
     This editor extension was developed by
