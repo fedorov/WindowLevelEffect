@@ -61,7 +61,7 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     self.bgSelector.connect('stateChanged(int)',self.updateMRMLFromGUI)
     self.fgSelector.connect('stateChanged(int)',self.updateMRMLFromGUI)
 
-    EditorLib.HelpButton(self.frame, "Use this tool to change window/level of background/foreground volumes based on the intensity range of the selected rectangle.\n\nLeft Click and Drag: sweep out an outline that will draw when the button is released. The outline will define the rectangle for calculating the new window/level settings.")
+    EditorLib.HelpButton(self.frame, "Use this tool to change window/level of background/foreground volumes based on the intensity range of the selected rectangle.\n\nNormal mode: use primary mouse button to adjust window level. Depending on the selection, Foreground, Background or both layers are affected.\n\nRectangle mode: Left Click and Drag: sweep out an outline that will draw when the button is released. The outline will define the rectangle for calculating the new window/level settings for the selected layers.\n\n")
     # step4Layout.addRow(self.normalMode, rectangleMode)
 
     # Add vertical spacer
@@ -318,6 +318,7 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
   def updateWindowLevelRectangle(self, sliceLayer, xyBounds):
     # conversion as done in LabelEffect.py:applyImageMask
     xlo, xhi, ylo, yhi, zlo, zhi = xyBounds
+    if xlo == xhi or ylo == yhi: return
     sliceNode = sliceLayer.GetVolumeNode()
     sliceImage = sliceNode.GetImageData()
     if not sliceImage:
