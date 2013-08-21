@@ -23,6 +23,9 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
   def __init__(self, parent=0):
     super(WindowLevelEffectOptions,self).__init__(parent)
 
+    self.attributes = ('MouseTool')
+    self.displayName = 'WindowLevelEffect Effect'
+
   def __del__(self):
     super(WindowLevelEffectOptions,self).__del__()
 
@@ -39,7 +42,7 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     # or as a rectangle
     self.normalMode = qt.QRadioButton('Normal mode')
     self.rectangleMode = qt.QRadioButton('Rectangle mode')
-    self.normalMode.setChecked(1)
+    self.rectangleMode.setChecked(1)
 
     label = qt.QLabel('Mode of operation:')
     self.frame.layout().addWidget(label)
@@ -53,7 +56,7 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     label = qt.QLabel('Layers affected:')
     self.bgSelector = qt.QCheckBox('Background')
     self.fgSelector = qt.QCheckBox('Foreground')
-    self.bgSelector.checked = 0
+    self.bgSelector.checked = 1
     self.fgSelector.checked = 1
     self.frame.layout().addWidget(label)
     self.frame.layout().addWidget(self.bgSelector)
@@ -68,8 +71,8 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     self.frame.layout().addStretch(1)
 
     # set effect-specific parameters
-    self.parameterNode.SetParameter('WindowLevelEffect,wlmode', 'Normal')
-    self.parameterNode.SetParameter('WindowLevelEffect,changeBg','0')
+    self.parameterNode.SetParameter('WindowLevelEffect,wlmode', 'Rectangle')
+    self.parameterNode.SetParameter('WindowLevelEffect,changeBg','1')
     self.parameterNode.SetParameter('WindowLevelEffect,changeFg','1')
     self.parameterNode.SetParameter('Effect,scope','')
 
