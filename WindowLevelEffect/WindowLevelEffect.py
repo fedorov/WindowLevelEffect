@@ -71,10 +71,16 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     self.frame.layout().addStretch(1)
 
     # set effect-specific parameters
-    self.parameterNode.SetParameter('WindowLevelEffect,wlmode', 'Rectangle')
-    self.parameterNode.SetParameter('WindowLevelEffect,changeBg','1')
-    self.parameterNode.SetParameter('WindowLevelEffect,changeFg','1')
-    self.parameterNode.SetParameter('Effect,scope','')
+    if self.parameterNode.SetParameter('WindowLevelEffect,wlmode') == '':
+      self.parameterNode.SetParameter('WindowLevelEffect,wlmode', 'Rectangle')
+    if self.parameterNode.SetParameter('WindowLevelEffect,changeBg') == '':
+      self.parameterNode.SetParameter('WindowLevelEffect,changeBg','1')
+    if self.parameterNode.SetParameter('WindowLevelEffect,changeFg') == '':
+      self.parameterNode.SetParameter('WindowLevelEffect,changeFg','1')
+    if self.parameterNode.SetParameter('Effect,scope') == '':
+      self.parameterNode.SetParameter('Effect,scope','')
+
+    self.parameterNodeTag = self.parameterNode.AddObserver(vtk.vtkCommand.ModifiedEvent, self.UpdateGUIFromMRML)
 
   def destroy(self):
     super(WindowLevelEffectOptions,self).destroy()
@@ -91,8 +97,16 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
       self.parameterNodeTag = node.AddObserver(vtk.vtkCommand.ModifiedEvent, self.updateGUIFromMRML)
 
   def setMRMLDefaults(self):
-    return
     super(WindowLevelEffectOptions,self).setMRMLDefaults()
+    disableState = self.parameterNode.GetDisableModifiedEvent()
+    self.parameterNode.SetDisableModifiedEvent(1)
+
+    self.parameterNode.SetParameter('WindowLevelEffect,wlmode', 'Rectangle')
+    self.parameterNode.SetParameter('WindowLevelEffect,changeBg','0')
+    self.parameterNode.SetParameter('WindowLevelEffect,changeFg','1')
+    self.parameterNode.SetParameter('Effect,scope','')
+
+    self.parameterNode.SetDisableModifiedEvent(disableState)
 
   def updateGUIFromMRML(self,caller,event):
     return
