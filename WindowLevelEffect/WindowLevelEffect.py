@@ -71,16 +71,16 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     self.frame.layout().addStretch(1)
 
     # set effect-specific parameters
-    if self.parameterNode.SetParameter('WindowLevelEffect,wlmode') == '':
+    if self.parameterNode.GetParameter('WindowLevelEffect,wlmode') == '':
       self.parameterNode.SetParameter('WindowLevelEffect,wlmode', 'Rectangle')
-    if self.parameterNode.SetParameter('WindowLevelEffect,changeBg') == '':
+    if self.parameterNode.GetParameter('WindowLevelEffect,changeBg') == '':
       self.parameterNode.SetParameter('WindowLevelEffect,changeBg','1')
-    if self.parameterNode.SetParameter('WindowLevelEffect,changeFg') == '':
+    if self.parameterNode.GetParameter('WindowLevelEffect,changeFg') == '':
       self.parameterNode.SetParameter('WindowLevelEffect,changeFg','1')
-    if self.parameterNode.SetParameter('Effect,scope') == '':
+    if self.parameterNode.GetParameter('Effect,scope') == '':
       self.parameterNode.SetParameter('Effect,scope','')
 
-    self.parameterNodeTag = self.parameterNode.AddObserver(vtk.vtkCommand.ModifiedEvent, self.UpdateGUIFromMRML)
+    #self.parameterNodeTag = self.parameterNode.AddObserver(vtk.vtkCommand.ModifiedEvent, self.UpdateGUIFromMRML)
 
   def destroy(self):
     super(WindowLevelEffectOptions,self).destroy()
@@ -102,7 +102,7 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     self.parameterNode.SetDisableModifiedEvent(1)
 
     self.parameterNode.SetParameter('WindowLevelEffect,wlmode', 'Rectangle')
-    self.parameterNode.SetParameter('WindowLevelEffect,changeBg','0')
+    self.parameterNode.SetParameter('WindowLevelEffect,changeBg','1')
     self.parameterNode.SetParameter('WindowLevelEffect,changeFg','1')
     self.parameterNode.SetParameter('Effect,scope','')
 
@@ -302,7 +302,8 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
 
     # see vtkSliceViewInteractorStyle:321
     lines = self.polyData.GetLines()
-    if lines.GetNumberOfCells() == 0: return
+    if lines.GetNumberOfCells() == 0: 
+      return
     bgLayer = self.sliceLogic.GetBackgroundLayer()
     fgLayer = self.sliceLogic.GetForegroundLayer()
     bgNode = bgLayer.GetVolumeNode()
@@ -340,12 +341,11 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
     sliceImage = sliceNode.GetImageData()
     if not sliceImage:
       return [0,0,0,0]
-    xyToIJK = sliceLayer.GetXYToIJKTransform().GetMatrix()
-    tlIJK = xyToIJK.MultiplyPoint( (xlo, yhi, 0, 1) )[:3]
-    trIJK = xyToIJK.MultiplyPoint( (xhi, yhi, 0, 1) )[:3]
-    blIJK = xyToIJK.MultiplyPoint( (xlo, ylo, 0, 1) )[:3]
-    brIJK = xyToIJK.MultiplyPoint( (xhi, ylo, 0, 1) )[:3]
-
+    xyToIJK = sliceLayer.GetXYToIJKTransform()
+    tlIJK = xyToIJK.TransformPoint( (xlo, yhi, 0) )
+    trIJK = xyToIJK.TransformPoint( (xhi, yhi, 0) )
+    blIJK = xyToIJK.TransformPoint( (xlo, ylo, 0) )
+    brIJK = xyToIJK.TransformPoint( (xhi, ylo, 0) )
     #
     # get the mask bounding box in ijk coordinates
     # - get the xy bounds
