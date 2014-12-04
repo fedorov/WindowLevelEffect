@@ -171,7 +171,10 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
 
     self.mapper = vtk.vtkPolyDataMapper2D()
     self.actor = vtk.vtkActor2D()
-    self.mapper.SetInput(self.polyData)
+    if vtk.VTK_MAJOR_VERSION <= 5:
+      self.mapper.SetInput(self.polyData)
+    else:
+      self.mapper.SetInputData(self.polyData)
     self.actor.SetMapper(self.mapper)
     property_ = self.actor.GetProperty()
     property_.SetColor(1,1,0)
@@ -372,12 +375,19 @@ class WindowLevelEffectTool(LabelEffect.LabelEffectTool):
     extentMin = [min(tl[0],min(tr[0],min(bl[0],br[0]))),min(tl[1],min(tr[1],min(bl[1],br[1]))),min(tl[2],min(tr[2],min(bl[2],br[2])))]
     extentMax = [max(tl[0],max(tr[0],max(bl[0],br[0]))),max(tl[1],max(tr[1],max(bl[1],br[1]))),max(tl[2],max(tr[2],max(bl[2],br[2])))]
     clip.SetOutputWholeExtent(extentMin[0],extentMax[0],extentMin[1],extentMax[1],extentMin[2],extentMax[2])
-    clip.SetInput(sliceNode.GetImageData())
+    if vtk.VTK_MAJOR_VERSION <= 5:
+      clip.SetInput(sliceNode.GetImageData())
+    else:
+      clip.SetInputData(sliceNode.GetImageData())
     clip.ClipDataOn()
     clip.Update()
 
     stats = vtk.vtkImageHistogramStatistics()
-    stats.SetInput(clip.GetOutput())
+
+    if vtk.VTK_MAJOR_VERSION <= 5:
+      stats.SetInput(clip.GetOutput())
+    else:
+      stats.SetInputData(clip.GetOutput())
     stats.Update()
 
     minIntensity = stats.GetMinimum()
