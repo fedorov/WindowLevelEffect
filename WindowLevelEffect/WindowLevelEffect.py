@@ -33,10 +33,10 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     super(WindowLevelEffectOptions,self).create()
 
 
-    self.thresholdPaint.hide()
-    self.paintOver.hide()
-    self.threshold.hide()
-    self.thresholdLabel.hide()
+    #self.thresholdPaint.hide()
+    #self.paintOver.hide()
+    #self.threshold.hide()
+    #self.thresholdLabel.hide()
 
     # add the selection whether it should work as regular w/l control,
     # or as a rectangle
@@ -109,7 +109,6 @@ class WindowLevelEffectOptions(LabelEffect.LabelEffectOptions):
     self.parameterNode.SetDisableModifiedEvent(disableState)
 
   def updateGUIFromMRML(self,caller,event):
-    return
     super(WindowLevelEffectOptions,self).updateGUIFromMRML(caller,event)
 
   def updateMRMLFromGUI(self):
